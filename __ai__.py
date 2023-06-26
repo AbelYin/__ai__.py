@@ -272,9 +272,12 @@ class Ai:
         1.棋子价值
         2.形状
         3.图案
+        4.威胁
         :return:
         """
         ans = 0
+        # 威胁
+
         # 棋子价值 + 图案
         for i in range(9):
             for k in range(10):
@@ -289,9 +292,9 @@ class Ai:
         # 形状
         # 窝心马
         if self.data.board[4][1] == "黑马":
-            ans -= 20000
+            ans -= 2000
         if self.data.board[4][8] == "红马":
-            ans += 20000
+            ans += 2000
         # 空头炮
         for i in self.data.black_chess:
             if i.name[1] == '将':
@@ -304,13 +307,13 @@ class Ai:
         for i in range(ya + 1, 10):
             if self.data.board[xa][i] != "":
                 if self.data.board[xa][i] == '红炮':
-                    ans -= 20000
+                    ans -= 2000
                 break
 
         for i in range(yb - 1, 0, -1):
             if self.data.board[xb][i] != "":
                 if self.data.board[xb][i] == '黑炮':
-                    ans += 20000
+                    ans += 2000
                 break
 
         return ans
@@ -362,7 +365,7 @@ class Ai:
             if self.check_checkmate(depth):
                 self.data.board = copy.deepcopy(self.noww)
             else:
-                print(depth,':',i)
+                print(depth,':',i,":",self.score(),best)
                 now = -self.AlphaBeta(depth - 1, -beta, -alpha,road)
                 self.data.board = copy.deepcopy(self.noww)
                 road.pop(-1)
@@ -382,6 +385,6 @@ class Ai:
                 self.HistoryTable[i] += depth*depth
             else:
                 self.HistoryTable[i] = depth*depth
-            if depth == 2:
+            if depth == 4:
                 self.best_move = best_move
         return alpha

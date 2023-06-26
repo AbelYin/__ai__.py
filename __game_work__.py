@@ -214,10 +214,14 @@ class Work:
                 if i.rect.collidepoint(x, y):
                     self.make_av_move(i)
         else:
+            for i in self.data.black_chess:
+                if i.rect.collidepoint(x, y):
+                    self.make_av_move(i)
             # 检查黑棋
+            """
             a = copy.deepcopy(self.data.board)
             self.ai.HistoryTable = {}
-            self.ai.AlphaBeta(2,-99999999,99999999, [])
+            self.ai.AlphaBeta(4,-99999999,99999999, [])
             print("ans:",self.ai.best_move)
             print("now:",self.ai.score())
             self.data.board = copy.deepcopy(a)
@@ -226,6 +230,8 @@ class Work:
                 if i.x == self.ai.best_move[0] and i.y == self.ai.best_move[1]:
                     i.move_to(self.ai.best_move[2],self.ai.best_move[3])
             self.data.now_player *=-1
+            """
+
 
 
     def draw_all(self):
