@@ -347,6 +347,31 @@ class Ai:
             return self.HistoryTable[elem]
         return 0
 
+    def MaxMin(self,depth):
+        print(depth)
+        best = -99999999
+        if depth<=0:
+            for i in self.data.board:
+                print(i)
+            print(self.score())
+            return self.score()
+        self.make_next_chess_move(depth % 2)
+        self.next_move_a = copy.deepcopy(self.next_move)
+        self.next_move_a.sort(key=self.CompareHistory)
+        self.noww = copy.deepcopy(self.data.board)
+        nv = 0
+        for i in self.next_move_a:
+            self.move(i)
+            now = -self.MaxMin(depth-1)
+            self.data.board = copy.deepcopy(self.noww)
+            if now>best:
+                best = now
+                nv = i
+        if depth == 2:
+            self.best_move = self.decode(nv)
+        return best
+
+
     def AlphaBeta(self, depth, alpha, beta,road):
         # 会自杀
         if depth == 0:
@@ -385,6 +410,6 @@ class Ai:
                 self.HistoryTable[i] += depth*depth
             else:
                 self.HistoryTable[i] = depth*depth
-            if depth == 4:
+            if depth == 2:
                 self.best_move = best_move
         return alpha
